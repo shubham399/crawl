@@ -19,7 +19,10 @@
   "homepage": "https://github.com/shubham399/crawl#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "bull": "^3.11.0",
+    "bull-arena": "^2.6.4",
     "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
     "pg": "^7.12.1",
     "sequelize": "^5.19.2"
   }
