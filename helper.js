@@ -1,8 +1,9 @@
 'use strict'
 const cheerio = require('cheerio');
 const axios = require('axios');
-//TODO: move these  values to Config.
-const MAX_REQUESTS_COUNT = 5;
+const env = process.env.NODE_ENV || "development";
+const config = require("./config/config.js")[env];
+const MAX_REQUESTS_COUNT = config.concurrentCount;
 const INTERVAL_MS = 10;
 let PENDING_REQUESTS = 0;
 

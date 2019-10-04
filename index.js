@@ -2,18 +2,21 @@ const Queue = require('bull');
 const models = require("./models");
 const env = process.env.NODE_ENV || "development";
 const config = require("./config/config.js")[env];
-const app = require("./crawl.js")
+const app = require("./crawl.js");
 const Arena = require('bull-arena');
 const express = require("express");
 const router = express.Router();
-const startURL = process.argv[2] || "https://shubhkumar.in/"
+const startURL = process.argv[2] || config.defaultStartURL;
 
+/** Queue Process Handler */
 var crawlQueue = new Queue('crawler-queue', config.redisURL);
 
-crawlQueue.process( 5, async function(job){
+
+/** Queue Process Handler */
+crawlQueue.process( config.concurrentCount, async function(job){
   let url = job.data.url;
   let crawled = null;
-  let visisted = await app.visitedURL(url);
+  let visisted = await app.getURLfromDB(url);
   if(visisted == null)
   {
     console.log("Crawling... " + url);
@@ -27,9 +30,12 @@ crawlQueue.process( 5, async function(job){
   return crawled ? crawled : "Already Visited";
 });
 
-
+/* Add the Starting URL  in the queue */
 crawlQueue.add({"url":startURL})
 
+
+
+/** Start the Dashboard  at 4567*/
 const arena = Arena({
   queues: [
     {
