@@ -90,7 +90,6 @@ const filteredLinks = async function(url) {
       path
     } = getFormatedURL(url);
     let x = Array.from(new Set(links.filter(x => x.includes(host))));
-    console.log(x);
     return x;
   } catch (err) {
     console.error("Error:" + err);

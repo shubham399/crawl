@@ -4,6 +4,7 @@
   "description": "A recursive crawler which crawl and store all links recursivly",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,8 @@
   "homepage": "https://github.com/shubham399/crawl#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "pg": "^7.12.1",
+    "sequelize": "^5.19.2"
   }
 }
