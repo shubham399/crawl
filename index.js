@@ -30,18 +30,28 @@ crawlQueue.process( config.concurrentCount, async function(job){
   return crawled ? crawled : "Already Visited";
 });
 
-/* Add the Starting URL  in the queue */
-crawlQueue.add({"url":startURL})
 
-
-
+const redis =config.redisURL.split("://")
+const host = redis[1].substring(0,redis[1].indexOf(':'))
+const port = redis[1].substring(redis[1].indexOf(':')+1)
 /** Start the Dashboard  at 4567*/
 const arena = Arena({
   queues: [
     {
     "name": "crawler-queue",
     "hostId": "Crawler",
+    "redis": {
+       "port": port,
+       "host": host
+     }
   }
   ]
 });
-router.use('/', arena);
+
+/** Sync DB before starting */
+models.sequelize.sync({force:config.resetdb}).then(()=>{
+  /* Add the Starting URL  in the queue */
+  crawlQueue.add({"url":startURL});
+  router.use('/', arena);
+
+})
