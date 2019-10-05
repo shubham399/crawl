@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    # volumes:
+    #   - "./pgdata:/var/lib/postgresql/data"
+    environment:
+       POSTGRES_PASSWORD: postgres
+       POSTGRES_USER: postgres
+       POSTGRES_DB:  crawl
+    networks:
+      - webnet
+  web:
+    image: crawl
+    ports:
+     - "4567:4567"
+    networks:
+      - webnet
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db/crawl
+      NODE_ENV : test
+      REDIS_URL : redis://redis:6379
+    depends_on:
+      - "redis"
+      - "db"
+  redis:
+    image: "redis"
+    networks:
+      - webnet
+networks:
+  webnet:
