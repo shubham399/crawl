@@ -2,6 +2,6 @@
 
 A web scrapper which scrape only the provided host.
 
-##Usage
+## Usage
 `npm i` to install all the requirement and then `npm start <url>`.
 
