@@ -74,7 +74,7 @@ const getAllLinks = async function(url) {
           return x
         }
       });
-      return Array.from(new Set(array))
+      return Array.from(new Set(array)).filter(x=>x);
     }
   } catch (err) {
     console.error(err);
