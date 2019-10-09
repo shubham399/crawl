@@ -47,8 +47,8 @@ const arena = Arena({
 
 
 function initRoutes() {
-  expressApp.use('/', appRoute);
   expressApp.use('/arena', arena);
+  expressApp.use('/crawl', appRoute);
 }
 
 

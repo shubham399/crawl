@@ -12,16 +12,12 @@ const bodyParser = require('body-parser')
 
 
 router.use(bodyParser.json())
-router.use(function(req, res, next) {
-  if (req.path == "/")
-    next();
-  else {
-    const api = req.get("X-API-KEY");
-    if (api == config.api_key)
-      next()
-    else
-      res.status(401).send("Invalid Auth");
-  }
+router.use((req, res, next) =>{
+  const api = req.get("X-API-KEY");
+  if (api == config.api_key)
+    next()
+  else
+    res.status(401).send("Invalid Auth");
 })
 
 /*
