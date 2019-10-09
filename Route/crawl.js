@@ -50,7 +50,7 @@ router.get('/:url', async (req, res) => {
     let data = await models.Crawl.findAndCountAll({
       where: {
         url: {
-          [Op.like]: `%${req.params.url}%`
+          [Op.iLike]: `%${req.params.url}%`
         }
       },
       limit,
