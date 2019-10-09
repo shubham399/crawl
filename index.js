@@ -16,16 +16,25 @@ var crawlQueue = new Queue("crawler-queue", config.redisURL);
 
 /** Queue Process Handler */
 crawlQueue.process("crawler", config.concurrentCount, async function(job) {
-  let url = job.data.url;
-  let crawled = null;
-  let visisted = await app.getURLfromDB(url);
-  if (visisted == null) {
-    crawled = await app.crawl(url);
-    crawled.map(x => crawlQueue.add("crawler", {
-      "url": x
-    }))
+  try {
+    job.progress(5);
+    let url = job.data.url;
+    let crawled = null;
+    let visisted = await app.getURLfromDB(url);
+    job.progress(25);
+    if (visisted == null) {
+      job.progress(50);
+      crawled = await app.crawl(url);
+      crawled.map(x => crawlQueue.add("crawler", {
+        "url": x
+      }))
+    }
+    job.progress(100);
+    return crawled ? crawled : "Already Visited";
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
-  return crawled ? crawled : "Already Visited";
 });
 
 

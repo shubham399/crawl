@@ -49,7 +49,7 @@ const upsertInDB = async function(url) {
 const crawl = async function(url) {
   let val = await helper.getLinks(url);
   val.map(upsertInDB)
-  return val.map(removeQueryParamsAndAnchors);
+  return Array.from(new Set(val.map(removeQueryParamsAndAnchors)));
 }
 
 /** this function is used  to the URL from DB*/
