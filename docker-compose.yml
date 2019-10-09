@@ -12,7 +12,7 @@ services:
     networks:
       - webnet
   web:
-    image: crawl
+    image: registry.gitlab.com/shubham399/crawl
     ports:
      - "4567:8000"
     networks:
