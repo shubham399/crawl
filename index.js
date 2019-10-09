@@ -28,17 +28,13 @@ crawlQueue.process("crawler", config.concurrentCount, async function(job) {
 });
 
 
-const redis = config.redisURL.split("://")
-const host = redis[1].substring(0, redis[1].indexOf(':'))
-const port = redis[1].substring(redis[1].indexOf(':') + 1)
 /** Start the Dashboard  at 4567*/
 const arena = Arena({
   queues: [{
     "name": "crawler-queue",
     "hostId": "Crawler",
     "redis": {
-      "port": port,
-      "host": host
+      url: config.redisURL
     }
   }]
 }, {
@@ -47,7 +43,7 @@ const arena = Arena({
 
 
 function initRoutes() {
-  expressApp.all("/",(req,res)=>res.send("UP"))
+  expressApp.all("/", (req, res) => res.send("UP"))
   expressApp.use('/arena', arena);
   expressApp.use('/crawl', appRoute);
 }
