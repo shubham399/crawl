@@ -6,9 +6,9 @@ const app = require("./crawl.js");
 const Arena = require('bull-arena');
 const express = require("express");
 const expressApp = express()
-const router = express.Router();
 const startURL = process.argv[2] || config.defaultStartURL;
 const serverPort = process.env.PORT || 8000
+const appRoute = require("./Route/crawl.js")
 /** Queue Process Handler */
 var crawlQueue = new Queue("crawler-queue", config.redisURL);
 
@@ -47,20 +47,7 @@ const arena = Arena({
 
 
 function initRoutes() {
-  expressApp.get('/', async (req, res) => {
-    try {
-      let limit = req.query.limit || 5
-      let offset = req.query.offset || 0
-      let data = await models.Crawl.findAndCountAll({
-        limit,
-        offset
-      })
-      res.json(data);
-    } catch (e) {
-      console.error(e);
-      res.status(500).send("Error" + e)
-    }
-  });
+  expressApp.use('/', appRoute);
   expressApp.use('/arena', arena);
 }
 
@@ -70,9 +57,9 @@ models.sequelize.sync({
   force: config.resetdb
 }).then(() => {
   /* Add the Starting URL  in the queue */
-  crawlQueue.add('crawler', {
-    "url": startURL
-  })
+  // crawlQueue.add('crawler', {
+  //   "url": startURL
+  // })
   initRoutes();
 })
 
