@@ -14,13 +14,15 @@ services:
   web:
     image: crawl
     ports:
-     - "4567:4567"
+     - "4567:8000"
     networks:
       - webnet
     environment:
       DATABASE_URL: postgres://postgres:postgres@db/crawl
       NODE_ENV : test
       REDIS_URL : redis://redis:6379
+      CONCURRENT_COUNT: 10
+      API_KEY: test
     depends_on:
       - "redis"
       - "db"
