@@ -1,3 +1,4 @@
+'use strict'
 const Queue = require('bull');
 const models = require("./models");
 const env = process.env.NODE_ENV || "development";

@@ -1,3 +1,4 @@
+'use strict'
 const helper = require("./helper.js");
 const models = require("./models");
 var env = process.env.NODE_ENV || "development";
@@ -63,6 +64,6 @@ const getURLfromDB = async function(url) {
 
 
 
-/* Export Crawl and getURLfromDB */ 
+/* Export Crawl and getURLfromDB */
 exports.crawl = crawl
 exports.getURLfromDB = getURLfromDB
