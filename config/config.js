@@ -4,14 +4,16 @@ module.exports = {
     resetdb: true,
     redisURL: 'redis://127.0.0.1:6379',
     concurrentCount : 5,
-    defaultStartURL: 'https://shubhkumar.in'
+    defaultStartURL: 'https://shubhkumar.in',
+    api_key:"test"
   },
   test: {
     connection_url: process.env.DATABASE_URL,
     resetdb: false,
     redisURL: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
     concurrentCount : parseInt(process.env.CONCURRENT_COUNT) || 5,
-    defaultStartURL: process.env.START_URL || 'https://shubhkumar.in'
+    defaultStartURL: process.env.START_URL || 'https://shubhkumar.in',
+    api_key:process.env.API_KEY
 
   },
   production: {
@@ -19,7 +21,8 @@ module.exports = {
     resetdb: false,
     redisURL: process.env.REDIS_URL,
     concurrentCount :parseInt(process.env.CONCURRENT_COUNT),
-    defaultStartURL: process.env.START_URL || 'https://shubhkumar.in'
+    defaultStartURL: process.env.START_URL || 'https://shubhkumar.in',
+    api_key:process.env.API_KEY
 
   }
 };
