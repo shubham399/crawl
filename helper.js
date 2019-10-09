@@ -66,8 +66,10 @@ const getAllLinks = async function(url) {
     if (response.status >= 200 && response.status <= 300) {
       let $ = cheerio.load(response.data);
       let array = $('a').toArray().map(x => x.attribs.href).map(x => {
-        if (x[0] == '/') {
-          return protocol + "://" + host + x
+        if (x[0] == '/' || x[0] == "#") {
+          if (x[0] == "#")
+            return protocol + "://" + host + "/" + x
+          else return protocol + "://" + host + x
         } else {
           return x
         }
@@ -75,7 +77,7 @@ const getAllLinks = async function(url) {
       return Array.from(new Set(array))
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -90,8 +92,13 @@ const filteredLinks = async function(url) {
       host,
       path
     } = getFormatedURL(url);
-    let x = Array.from(new Set(links.filter(x => x.includes(host))));
-    return x;
+    let result = Array.from(new Set(links.filter(x => {
+      let {
+        host: urlHost
+      } = getFormatedURL(x);
+      return urlHost.includes(host);
+    })));
+    return result;
   } catch (err) {
     console.error("Error:" + err);
   }
