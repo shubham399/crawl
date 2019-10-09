@@ -30,7 +30,6 @@ crawlQueue.process("crawler", config.concurrentCount, async function(job) {
 
 
 /** Start the Dashboard  at 4567*/
-console.log(config.redisURL);
 const arena = Arena({
   queues: [{
     "name": "crawler-queue",
